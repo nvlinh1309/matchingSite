@@ -135,11 +135,16 @@
                                                 <th style="min-width:150px;" class="hidden-xs">Product name</th>
                                                 <th style="width:30px;" class="hidden-xs">Deltail</th>
                                             </tr>
-                                            <tr>
-                                                <td>ABCD</td>
-                                                <td align="center"><i class="fa fa-comments"
-                                                                      style="font-size:24px;color:red"></i></td>
-                                            </tr>
+                                            @foreach($sents as $sent)
+                                                <tr>
+                                                    <td>{{$sent->products->title}}</td>
+                                                    <td align="center">
+                                                        <a href="{{route('messages_detail',['product_id'=>$sent->product_id,'user_id_to'=>$sent->user_id_to])}}">
+                                                            <i class="fa fa-comments" style="font-size:24px;color:red"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -147,18 +152,20 @@
                                         <table class="table table-bordered">
                                             <tbody>
                                             <tr>
-                                                <th style="min-width:150px;" class="hidden-xs">Product</th>
+                                                <th style="min-width:150px;" class="hidden-xs">Product name</th>
                                                 <th style="min-width:150px;" class="hidden-xs">Name</th>
                                                 <th style="min-width:150px;" class="hidden-xs">Email</th>
                                                 <th style="width:30px;" class="hidden-xs">Deltail</th>
                                             </tr>
-                                            <tr>
-                                                <td>ABCD</td>
-                                                <td>Join</td>
-                                                <td>Join@gmail.com</td>
-                                                <td align="center"><i class="fa fa-comments"
-                                                                      style="font-size:24px;color:red"></i></td>
-                                            </tr>
+                                            @foreach($receiveds as $received)
+                                                <tr>
+                                                    <td>{{$sent->products->title}}</td>
+                                                    <td>{{$received->name}}</td>
+                                                    <td>{{$received->email}}</td>
+                                                    <td align="center"><i class="fa fa-comments"
+                                                                          style="font-size:24px;color:red"></i></td>
+                                                </tr>
+                                            @endforeach
                                             </tbody>
                                         </table>
                                     </div>

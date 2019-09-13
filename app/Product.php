@@ -22,4 +22,8 @@ class Product extends Model
         'status',
         'created_at'
     ];
+    public function messages()
+    {
+        return $this->hasMany('App\Message')->whereNull('messages.product_id');
+    }
 }

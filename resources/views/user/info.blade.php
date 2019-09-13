@@ -114,8 +114,8 @@
 			0đ</span></div>
                         <div style="color:#F00;font-weight:bold;">
                         </div>
-                        @if (Session::has('message'))
-                            <div class="alert alert-info">{{ Session::get('message') }}</div>
+                        @if (Session::has('success'))
+                            <div style="color: green">{{ Session::get('success') }}</div>
                         @endif
                         <div class="w-clear">
                             <div class="dk-l">

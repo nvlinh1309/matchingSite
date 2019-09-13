@@ -187,7 +187,7 @@
                                                                           action="{{route('send_contact',['id'=> $product->id])}}">
                                                                         @csrf
                                                                         <input type="hidden" name="id_to"
-                                                                               value="{{$product->id}}">
+                                                                               value="{{$product->user_id}}">
                                                                         <input type="hidden" name="user_type"
                                                                                value="{{$product->user_type}}">
 

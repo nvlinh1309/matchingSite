@@ -51,8 +51,12 @@ Route::post('info','user\UserController@changeInfo')->name('changeInfo');
 
 
 Route::get('messages','user\UserController@messages')->name('messages');
+Route::get('messages/{product_id}/{user_id_to}','user\UserController@messages_detail')->name('messages_detail');
+
 Route::get('change-email','user\UserController@change_mail')->name('change_mail');
+
 Route::get('change-password','user\UserController@change_password')->name('change_password');
+Route::post('change-password','user\UserController@postChangePassword')->name('postChangePassword');
 
 //** Product
 // Add new

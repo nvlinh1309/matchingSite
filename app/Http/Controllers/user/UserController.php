@@ -4,6 +4,7 @@ namespace App\Http\Controllers\user;
 
 use App\Category;
 use App\Mail\VerifyMail;
+use App\Message;
 use App\Product;
 use App\User;
 use Illuminate\Http\Request;
@@ -46,7 +47,6 @@ class UserController extends Controller
         }
 
     }
-
 
 
     public function post_Reset_pass(Request $request)
@@ -187,10 +187,10 @@ class UserController extends Controller
         }
     }
 
-    public function changeInfo(Request $request){
+    public function changeInfo(Request $request)
+    {
         $rules = [
-            'name' => 'required',
-            'phone'=>'numeric'
+            'name' => 'required'
         ];
         $messages = [
             'name.required' => 'You must enter your name',
@@ -202,8 +202,8 @@ class UserController extends Controller
             User::where('id', Auth::user()->id)
                 ->update([
                     'name' => $request->name,
-                    'address' =>$request->address,
-                    'phone'=>$request->phone
+                    'address' => $request->address,
+                    'phone' => $request->phone
                 ]);
             Session::flash('success', 'Update successfully!');
             return redirect()->route('info');
@@ -213,11 +213,35 @@ class UserController extends Controller
     public function messages()
     {
         if (Auth::check()) {
-            return view('user.messages');
+            $sents = Message::where('user_id_from', Auth::user()->id)
+                ->where('reply_id', 0)
+                ->paginate(10);
+            $receiveds = Message::where('user_id_to', Auth::user()->id)
+                ->where('approve', 1)
+                ->where('reply_id', 0)
+                ->paginate(10);
+            return view('user.messages')
+                ->with('sents', $sents)
+                ->with('receiveds', $receiveds);
         } else {
             return view('user.login');
 
         }
+    }
+
+    public function messages_detail(Request $request)
+    {
+        $product_id = $request->product_id;
+        $user_id_to = $request->user_id_to;
+        $product = Product::where('id', $product_id)->first();
+        $messages = Message::where('product_id', $product_id)
+            ->where('approve', 1)
+            ->where('user_id_to', $user_id_to)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return view('user.messages_detail')
+            ->with('product',$product)
+            ->with('messages', $messages);
     }
 
 
@@ -238,6 +262,30 @@ class UserController extends Controller
         } else {
             return view('user.login');
 
+        }
+    }
+
+    public function postChangePassword(Request $request)
+    {
+
+        $rules = [
+            'current' => 'required'
+        ];
+        $messages = [
+            'name.required' => 'You must enter your name',
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        } else {
+            User::where('id', Auth::user()->id)
+                ->update([
+                    'name' => $request->name,
+                    'address' => $request->address,
+                    'phone' => $request->phone
+                ]);
+            Session::flash('success', 'Update successfully!');
+            return redirect()->route('change_password');
         }
     }
 }

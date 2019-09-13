@@ -70,8 +70,6 @@
         </div>
     </div>
 
-
-
     <div class="center" id="hlcenter" style="; border: none;">
         <div id="container" class="w-clear">
             <div class="row" style="margin-right: -5px;margin-left: -5px;">
@@ -83,7 +81,7 @@
                                     <i class="fa fa-user"></i>
                                     Infomation</a>
                             </li>
-                            <li>
+                            <li class="active">
                                 <a href="{{route("messages")}}">
                                     <i class="fa fa-comments"></i> Messages </a>
                             </li>
@@ -91,7 +89,7 @@
                                 <a href="{{route("products")}}">
                                     <i class="fa fa-shopping-basket" aria-hidden="true"></i> Your products </a>
                             </li>
-                            <li class="active">
+                            <li>
                                 <a href="{{route("change_password")}}">
                                     <i class="fa fa-lock" aria-hidden="true"></i> Change password </a>
                             </li>
@@ -110,64 +108,56 @@
 
                 </div>
                 <div class="col-md-10" id="halink-right" style="padding-left: 5px;padding-right: 5px;">
-                    <form name="dangnhap" action="" method="post" class="w-tttk">
-                        @csrf
-                        <div class="main-tit"><h2>Change password</h2><span><label for="name" class="ten">Butget:</label>
-			0đ</span></div>
-                        <div style="color:#F00;font-weight:bold;">
-                        </div>
-                        @if (session('error'))
-                            <div class="alert alert-danger">
-                                {{ session('error') }}
-                            </div>
-                        @endif
-                        @if (session('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
-                        @endif
-                        <div class="w-clear">
-                            <div class="dk-l">
-                                Current Password
-                            </div>
-                            <div class="dk-r">
-                                <input type="password" name="current" class="input" >
-                            </div>
-                            <div class="dk-a">
-                            </div>
-                        </div>
-                        <div class="w-clear">
-                            <div class="dk-l">New Password</div>
-                            <div class="dk-r">
-                                <input type="password" name="password" class="input" >
-                            </div>
-                            <div class="dk-a">
-                            </div>
-                        </div>
-                        <div class="w-clear">
-                            <div class="dk-l">
-                                Confirm Password
-                            </div>
-                            <div class="dk-r">
-                                <input type="password" name="re_password" class="input">
-                            </div>
-                            <div class="dk-a">
+                    <input type="hidden" value="" id="crp">
+                    <div class="main-tit">
+                        <h2>Messages</h2>
+                        <span>
+                            <label for="name" class="ten">Butget:</label>0đ</span>
 
-                            </div>
-                        </div>
-                        <div class="w-clear">
-                            <div class="dk-l dn-vh">
+                    </div>
+                    <ul class="nav nav-tabs" style="margin-left: 0px;" role="tablist">
+                        <li class="nav-item active">
+                            <a class="nav-link" data-toggle="tab" href="#chat">Messages</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#detail">Detail</a>
+                        </li>
+                    </ul>
+                    <section class="content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div id="chat" class="tab-pane active"><br>
+                                        <table class="table">
+                                            <tbody>
+                                            <tr>
+                                                <td><input class="form-control" type="text"></td>
+                                                <td style="width:30px;" class="hidden-xs">
+                                                    <button type="submit" class=" btn btn-danger">Send</button>
+                                                </td>
+                                            </tr>
+                                            @foreach($messages as $message)
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <strong>{{$message->users->name}}</strong>
+                                                        {{': '.$message->content}}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div id="detail" class="tab-pane"><br>
+                                        {{$product->title}}
+                                    </div>
+                                </div>
 
-                            </div>
-                            <div class="dk-r">
-                                <input type="submit" class="button" value="Update">
-                                <input type="reset" class="button" value="Reset">
+                                <div class="paging"></div>
                             </div>
                         </div>
-                    </form>
+                    </section>
                 </div>
-
-
             </div>
         </div>
 
@@ -189,5 +179,6 @@
 @section('scripts')
     <script>
         //
+
     </script>
 @endsection
